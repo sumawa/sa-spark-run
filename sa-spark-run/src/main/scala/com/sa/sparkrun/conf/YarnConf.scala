@@ -1,6 +1,5 @@
 package com.sa.sparkrun.conf
 
-//case class YarnClasspath()
 case class YarnConf(
                      clientConfig: Map[String, String],
                           javaPath: String,

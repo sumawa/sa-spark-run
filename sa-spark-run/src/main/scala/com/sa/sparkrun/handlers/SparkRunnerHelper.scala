@@ -13,11 +13,9 @@ import pureconfig.generic.auto._
 
 object SparkRunnerHelper{
 
-  def loadRunner[F[_]](sparkType: String
+  def loadRunner[F[_]: ConcurrentEffect: ContextShift: Timer](sparkType: String
                        , externalConfigPath: java.nio.file.Path, blocker: Blocker)
-                      (implicit F: ConcurrentEffect[F]
-                       , timer: Timer[F]
-                       , cs: ContextShift[F])= sparkType match {
+          = sparkType match {
     case "yarn" =>
       val c = for{
         yarnConf <- loadCnfF[F,YarnConf](externalConfigPath, YarnConf.namespace, blocker)

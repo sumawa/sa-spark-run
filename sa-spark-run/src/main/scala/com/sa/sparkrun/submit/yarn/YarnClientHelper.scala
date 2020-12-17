@@ -10,13 +10,6 @@ import org.apache.hadoop.yarn.client.api.YarnClient
 import org.apache.hadoop.yarn.conf.YarnConfiguration
 
 object YarnClientHelper {
-  //  private def limitExc[F[_]](
-  //                              implicit
-  //                              F: ConcurrentEffect[F],
-  //                              timer: Timer[F],
-  //                              cs: ContextShift[F]
-  //                            ): F[YarnClient] =
-  //    F.raiseError(new RuntimeException(s"connection limit of  ${timeout.toString} exceeded"))
 
   private def createYarnConfiguration(clientConfig: Map[String, String]): YarnConfiguration = {
     val yarnConfiguration = new YarnConfiguration()
@@ -29,7 +22,6 @@ object YarnClientHelper {
   import cats.syntax.flatMap._
   import cats.syntax.functor._
 
-  // a bit messy now, but it's for a sacred reason
   private def doMakeYC[F[_]](clientConfig: Map[String, String])(
     implicit
     F: ConcurrentEffect[F],
@@ -39,19 +31,8 @@ object YarnClientHelper {
     for {
       _ <- F.delay(println("--------- CREATING YARN CLIENT --------"))
       client <- F.delay(YarnClient.createYarnClient)
-//      val confMap = Map(
-//
-////        "fs.defaultFS" -> "hdfs://127.0.0.1/opt/books"
-//        "fs.defaultFS" -> "hdfs://127.0.0.1:50070"
-//        , "yarn.resourcemanager.hostname" -> "127.0.0.1"
-//        , "yarn.resourcemanager.webapp.address" -> "127.0.0.1:10800"
-//
-//      )
-//      config = createYarnConfiguration(confMap)
             config = createYarnConfiguration(clientConfig)
-      _ <- F.delay(println(s"INITIALIZING YARN CLIENT WITH ${config.toString}"))
       _ <- F.delay(client.init(config))
-      _ <- F.delay(println("--------- INIT YARN CLIENT SUCCESSFULLY --------"))
       _ <- F.delay(println("--------- STARTING YARN CLIENT --------"))
       _ <- F.delay {
         scala.util.Try(client.start()) match {

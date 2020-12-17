@@ -12,7 +12,6 @@ import org.http4s.{Header, Method, Request, Uri}
 import pureconfig.generic.auto._
 
 sealed trait SparkRunParam
-//final case class StandaloneRunParam(standAloneParam: StandAloneParam) extends SparkRunParam
 final case class StandaloneRunParam(standaloneConf: StandaloneConf) extends SparkRunParam
 final case class MyYarnRunParam(yarnClient: YarnClient, yarnParam: YarnParam) extends SparkRunParam
 
@@ -26,7 +25,6 @@ object SparkClientHelper{
                        , cs: ContextShift[F])= sparkType match {
     case "yarn" =>
       val c = for{
-//        yarnConfig <- loadCnfF[F,YarnConfig](externalConfigPath,YarnConfig.namespace, blocker)
         yarnConf <- loadCnfF[F,YarnConf](externalConfigPath, YarnConf.namespace, blocker)
         daemonConf <- loadCnfF[F,DaemonConf](externalConfigPath, DaemonConf.namespace, blocker)
         yarnParam = YarnParam(yarnConf, daemonConf)
@@ -50,6 +48,5 @@ object SparkClientHelper{
       case "Standalone" =>
     }
   }
-  //    YarnClientHelper.build[IO](sparkParam.yarnConfig.clientConfig)
 }
 

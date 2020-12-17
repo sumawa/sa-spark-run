@@ -12,7 +12,7 @@ import pureconfig.module.catseffect.loadConfigF
 object ConfHelper {
 
   import pureconfig.module.catseffect.loadF
-  def loadCnfF[F[_]: ConcurrentEffect: ContextShift ,A](p: Path, ns: String, blocker: Blocker)(
+  def loadCnfF[F[_]: ConcurrentEffect: ContextShift,A](p: Path, ns: String, blocker: Blocker)(
     implicit
     reader: Derivation[ConfigReader[A]]
     , ct: ClassTag[A]
@@ -21,7 +21,7 @@ object ConfHelper {
     Stream.eval(loadF[F,A](cs,blocker))
   }
 
-  def loadCnfDefault[F[_]: ConcurrentEffect: ContextShift ,A](ns: String, blocker: Blocker)(
+  def loadCnfDefault[F[_]: ConcurrentEffect: ContextShift,A](ns: String, blocker: Blocker)(
     implicit
     reader: Derivation[ConfigReader[A]]
     , ct: ClassTag[A]
