@@ -16,7 +16,6 @@ class SparkRunBootstrapTest extends FeatureBaseSpec {
       def sparkResponse(job: Job) = for {
         sparkRunner <- Stream.eval(IO(yarnSparkRunner))
         _ <- Stream.eval(IO(println(s"sparkRunner: ${sparkRunner}")))
-        //      res = sparkRunner.submit(job)
       } yield (sparkRunner)
       def handleError(e: String, job: Job) ={
         info(s"%%%%%%%%% HANDLE ERROR: ${e}")

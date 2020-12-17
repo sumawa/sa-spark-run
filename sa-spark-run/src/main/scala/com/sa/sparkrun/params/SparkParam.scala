@@ -1,14 +1,14 @@
 package com.sa.sparkrun.params
 
 import cats.effect.IO
-import com.sa.sparkrun.conf.{DaemonConf, YarnConf, YarnConfig}
+import com.sa.sparkrun.conf.{DaemonConf, YarnConf}
 import fs2.Stream
 import pureconfig.generic.auto._
 
 sealed trait SparkParam[+A]
 case class EnvVar(SP: Option[String] = Some("1"), SPARK_USER: Option[String] = Some("test"))
 
-case class YarnParam(yarnConfig: YarnConfig, yarnConf: YarnConf, daemonConf: DaemonConf) extends SparkParam[YarnParam]
+case class YarnParam(yarnConf: YarnConf, daemonConf: DaemonConf) extends SparkParam[YarnParam]
 
 case class StandaloneParam(action: String,
                            appResource: String,

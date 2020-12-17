@@ -52,13 +52,16 @@ object SparkRunMain extends IOApp {
 
     launcher = new SparkLauncher[IO](sparkRunner, logger, blocker)
 
-    _ <- Stream.eval(IO{
-      println(s"----- DOING TEST SUBMIT ----- ")
-      launcher.run(jobS).value.unsafeRunSync()
-    })
+    sparkRunIO = SparkRunImplicits.trigger(IO(launcher.run(jobS)))
+//    stream <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((sparkRunIO,IO.unit).tupled.void)
+
+    stream <- Stream.eval(sparkRunIO)
+//      println(s"----- DOING TEST SUBMIT ----- ")
+
+
 //    sparkRunIO = logE(IO{launcher.run(jobR).unsafeRunSync()})(logger)
 //    stream         <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((sparkRunIO,IO.unit).tupled.void)
-  } yield ()
+  } yield (stream)
 
   override def run(args: List[String]): IO[ExitCode] =
     Blocker[IO].use(init(_).compile.drain)

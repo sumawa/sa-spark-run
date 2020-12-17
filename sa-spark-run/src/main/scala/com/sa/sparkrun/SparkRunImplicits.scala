@@ -11,4 +11,8 @@ object SparkRunImplicits {
                 (implicit F: ConcurrentEffect[F]): F[Unit] =
     ioa.attempt.flatMap(et => et.fold(ex => logger.error(ex)(ex.getMessage), _ => F.pure(())))
 
+  def trigger[F[_]](ioa: F[_])
+    (implicit F: ConcurrentEffect[F]): F[Unit] =
+    ioa.attempt.flatMap(et => et.fold(ex => F.unit, _ => F.unit))
+
 }

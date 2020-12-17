@@ -6,9 +6,7 @@ case class DaemonConf(
                        executors: Int,
                        jarPath: String,
                        sparkParams: String,
-                       httpParams: String,
                        baseDir: String,
-                       jdbcParams: String,
                        assemblyPath: String,
                        periodicity: Int // in seconds
                      )
