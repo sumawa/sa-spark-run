@@ -1,0 +1,1 @@
+SPARKRUN_ENV=dev SPARKRUN_HOME=$(pwd) SPARKRUN_TYPE=yarn java  -classpath ./dev.conf:./sa-spark-run/target/scala-2.12/sa-spark-run-assembly-0.1.3.jar com.sa.sparkrun.SparkRunMain > sparkrun.log &
