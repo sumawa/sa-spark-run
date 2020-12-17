@@ -1,6 +1,6 @@
 package com.sa.sparkrun.submit.yarn.components
 
-import com.sa.sparkrun.conf.SubmitterConf
+import com.sa.sparkrun.conf.YarnConf
 
 case class Resources(memory: Int, cores: Int, executors: Int)
 
@@ -13,7 +13,7 @@ case class Application(
                         args: Seq[String]
                       )
 
-class ArgFactory(conf: SubmitterConf) {
+class ArgFactory(conf: YarnConf) {
 
   def fromApp(app: Application): List[String] =
     collectAppDetails(app) ++ configureLogging

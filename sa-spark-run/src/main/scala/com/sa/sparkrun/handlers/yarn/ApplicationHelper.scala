@@ -1,6 +1,6 @@
 package com.sa.sparkrun.handlers.yarn
 
-import com.sa.sparkrun.conf.{DaemonConf, SubmitterConf}
+import com.sa.sparkrun.conf.{DaemonConf, YarnConf}
 import com.sa.sparkrun.db.domain.job.Job
 import com.sa.sparkrun.params.SparkCommand
 
@@ -14,7 +14,7 @@ case class Application(
                       )
 
 object ApplicationHelper{
-  def buildApp(jobInstance: Job, daemonConf: DaemonConf, submitterConf: SubmitterConf): Application = {
+  def buildApp(jobInstance: Job, daemonConf: DaemonConf, yarnConf: YarnConf): Application = {
     val sparkCommand = buildSparkCommand(jobInstance)
     Application(
       appName = jobInstance.sparkJobAppName.fold("DEFAULT")(_.toString),
@@ -23,7 +23,7 @@ object ApplicationHelper{
 //      jarPath = "hdfs:///sparkrun/books/spark-examples_2.11-2.4.0.jar",   // for error testing
       className = sparkCommand.sparkClass,
       resources = Resources(daemonConf.memory, daemonConf.cores, daemonConf.executors),
-      queueName = Some(submitterConf.defaultQueue),
+      queueName = Some(yarnConf.defaultQueue),
       //  args = Seq("80") ++ Seq(daemonConf.sparkParams)
       //        args = Seq(encodeExecCnf(jobInstance.executionConf)) ++ Seq(daemonConf.sparkParams) ++ Seq(
       args = sparkCommand.args.toSeq //TODO: Put baseDir in yarnConf and pass that context here

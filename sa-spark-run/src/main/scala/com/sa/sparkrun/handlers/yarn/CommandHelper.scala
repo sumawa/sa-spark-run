@@ -9,7 +9,7 @@ object CommandHelper {
 
   private def collectAppDetails(yarnParam: YarnParam, app: Application) =
     List(
-      yarnParam.submitterConf.javaPath
+      yarnParam.yarnConf.javaPath
       , "-server -Xmx2g"
       , "org.apache.spark.deploy.yarn.ApplicationMaster"
       , s"--class 'org.apache.spark.examples.SparkPi'"

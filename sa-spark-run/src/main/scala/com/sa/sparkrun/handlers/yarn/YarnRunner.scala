@@ -3,7 +3,7 @@ package com.sa.sparkrun.handlers.yarn
 import cats.data.EitherT
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, Timer}
 import com.sa.sparkrun.conf.ConfHelper.loadCnfF
-import com.sa.sparkrun.conf.{DaemonConf, SubmitterConf, YarnConfig}
+import com.sa.sparkrun.conf.{DaemonConf, YarnConf, YarnConfig}
 import com.sa.sparkrun.db.domain.job.Job
 import com.sa.sparkrun.handlers.{MySparkRunner, MyYarnRunParam, SpSuccess}
 import com.sa.sparkrun.params.YarnParam
@@ -48,11 +48,11 @@ class YarnRunner[F[_]](myYarnRunParam: MyYarnRunParam) extends MySparkRunner [F]
   private def appSubContext(yarnClient: YarnClient, sparkParam: YarnParam, job:Job)
                            (implicit F: ConcurrentEffect[F]): EitherT[F,String,ApplicationSubmissionContext] = for {
     newApp <- createYarnApplication(yarnClient)
-    app = ApplicationHelper.buildApp(job,sparkParam.daemonConf,sparkParam.submitterConf)
+    app = ApplicationHelper.buildApp(job,sparkParam.daemonConf,sparkParam.yarnConf)
     amc = createAMContainer(sparkParam, app)
     res <- LocalResourceHelper.createResourceMap(app)
     _   = amc.setLocalResources(res.asJava)
-    am = setEnvironment(amc, sparkParam.submitterConf)
+    am = setEnvironment(amc, sparkParam.yarnConf)
     asc = createAppSubmissionContext(am,newApp,app)
   } yield asc
 
@@ -89,9 +89,9 @@ class YarnRunner[F[_]](myYarnRunParam: MyYarnRunParam) extends MySparkRunner [F]
   }
 
   import scala.collection.JavaConverters._
-  private def setEnvironment(amContainer: ContainerLaunchContext, submitterConf: SubmitterConf) = {
+  private def setEnvironment(amContainer: ContainerLaunchContext, yarnConf: YarnConf) = {
     // STEP 6 (or 7 if prepare resource map is used) PREPARE ENV ENTRIES AND SET AM CONTAINER ENVIRONMENT
-    val env = EnvHelper.build(submitterConf)
+    val env = EnvHelper.build(yarnConf)
     println(s"ENV: ${env}")
     amContainer.setEnvironment(env.asJava)
 

@@ -18,7 +18,7 @@
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 
-//case class SubmitterConf(
+//case class YarnConf(
 //                          javaPath: String,
 //                          javaHome: String,
 //                          sparkHome: String,
@@ -29,8 +29,8 @@ import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 //                          sparkJars: String
 //                        )
 //
-//object SubmitterConf {
-//  val namespace: String = "submitter"
+//object YarnConf {
+//  val namespace: String = "yarnConf"
 //}
 
 //curl -X POST http://192.168.1.1:6066/v1/submissions/create --header "Content-Type:application/json;charset=UTF-8" --data '{

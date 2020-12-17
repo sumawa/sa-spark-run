@@ -2,7 +2,7 @@ package com.sa.sparkrun.source
 
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, IO, Timer}
 import com.sa.sparkrun.conf.ConfHelper.{loadCnfF}
-import com.sa.sparkrun.conf.{DaemonConf, DatabaseConfig, SubmitterConf, YarnConfig}
+import com.sa.sparkrun.conf.{DaemonConf, DatabaseConfig, YarnConf, YarnConfig}
 import com.sa.sparkrun.db.{DoobieJobRepository, PooledTransactor}
 import com.sa.sparkrun.handlers.standalone.StandaloneRunner
 import com.sa.sparkrun.handlers.yarn.YarnRunner

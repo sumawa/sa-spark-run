@@ -2,7 +2,7 @@ package com.sa.sparkrun.handlers
 
 import cats.effect.{ConcurrentEffect, ContextShift, Timer, Blocker}
 import com.sa.sparkrun.conf.ConfHelper.{loadCnfF}
-import com.sa.sparkrun.conf.{DaemonConf, SubmitterConf, YarnConfig}
+import com.sa.sparkrun.conf.{DaemonConf, YarnConf, YarnConfig}
 import com.sa.sparkrun.handlers.standalone.{StandaloneRunner}
 import com.sa.sparkrun.handlers.yarn.YarnRunner
 //import com.sa.sparkrun.handlers.yarn.MyYarnRunner
@@ -20,11 +20,11 @@ object SparkRunnerHelper{
                        , cs: ContextShift[F])= sparkType match {
     case "yarn" =>
       val c = for{
-        yarnConf <- loadCnfF[F,YarnConfig](externalConfigPath,YarnConfig.namespace, blocker)
-        submitterConf <- loadCnfF[F,SubmitterConf](externalConfigPath, SubmitterConf.namespace, blocker)
+        yarnConfig <- loadCnfF[F,YarnConfig](externalConfigPath,YarnConfig.namespace, blocker)
+        yarnConf <- loadCnfF[F,YarnConf](externalConfigPath, YarnConf.namespace, blocker)
         daemonConf <- loadCnfF[F,DaemonConf](externalConfigPath, DaemonConf.namespace, blocker)
-        yarnParam = YarnParam(yarnConf, submitterConf, daemonConf)
-        yarnClient <- Stream.eval(YarnClientHelper.build[F](yarnConf.clientConfig, blocker))
+        yarnParam = YarnParam(yarnConfig, yarnConf, daemonConf)
+        yarnClient <- Stream.eval(YarnClientHelper.build[F](yarnConfig.clientConfig, blocker))
         myYarnParam = MyYarnRunParam(yarnClient,yarnParam)
         runner = new YarnRunner[F](myYarnParam)
       } yield runner

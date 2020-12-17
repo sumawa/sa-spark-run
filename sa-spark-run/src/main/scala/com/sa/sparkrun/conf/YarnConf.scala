@@ -1,7 +1,7 @@
 package com.sa.sparkrun.conf
 
 //case class YarnClasspath()
-case class SubmitterConf(
+case class YarnConf(
                           javaPath: String,
                           javaHome: String,
                           sparkHome: String,
@@ -15,6 +15,6 @@ case class SubmitterConf(
                           yarnSpark: List[String]
                         )
 
-object SubmitterConf {
-  val namespace: String = "submitter"
+object YarnConf {
+  val namespace: String = "yarnConf"
 }
