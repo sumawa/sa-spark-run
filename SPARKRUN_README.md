@@ -8,25 +8,19 @@
 
 ### Purpose of this project
 
-    - It is a learning project, 
-        - to explore dev approaches (BDD/TDD)
-        - functional programming (effectful)
+#### It is a learning project,
+
+        - functional programming (effectful) 
+            Cats 2.x (Effect - IO,ConcurrentEffect,ContextShift,Blocker,Timer etc.)
+        - FP libraries for boilerplate free common utilities: pureConfig,Circe,http4s
+        - CI/CD: to explore dev approaches (BDD/TDD)
+            BDD / TDD ScalaTest (or Cucumber maybe)
+            Property based Testing (ScalaCheck)
+            SonarQube
+        - Have more transparency in managing blocking calls via separate thread pools
         - Using Blocker to manage blocking calls (DB/Third party APIs, etc)
-        - Streaming
+        - Streaming (fs2)
         
-#### Following tech stack explored:	
-##### Dev 
-	        - Scala 2.12.0
-	        - Cats 2.x (Effect - IO,ConcurrentEffect,ContextShift,Blocker,Timer etc.)
-	        - fs2 (Streaming)
-	        - pureConfig,Circe,http4s
-	        
-##### CI/CD
-
-    - BDD: ScalaTest (or Cucumber maybe)
-    - Property Based Testing (Scalacheck)
-    - Maybe: SonarQube Scoverage
-
 ### SparkRun Spark Execution and Tracking Service
 
 ![alt text](sparkrun.png "SparkRun executor and Trakcing Service")
