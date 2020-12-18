@@ -3,7 +3,7 @@ package com.sa.sparkrun.handlers.yarn
 import cats.data.EitherT
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, Timer}
 import com.sa.sparkrun.conf.ConfHelper.loadCnfF
-import com.sa.sparkrun.conf.{DaemonConf, YarnConf, YarnConfig}
+import com.sa.sparkrun.conf.{DaemonConf, YarnConf}
 import com.sa.sparkrun.db.domain.job.Job
 import com.sa.sparkrun.handlers.{MySparkRunner, MyYarnRunParam, SpSuccess}
 import com.sa.sparkrun.params.YarnParam
