@@ -42,10 +42,13 @@ object IO extends IOInstances {
    
 }
 ```
-It lazily evaluates a thunk (body: => A), the concept is derived from Haskell's call by name (Since, most of the Scala and Cats etc is copied from Haskell) 
+It lazily evaluates a thunk (body: => A), the concept is derived from Haskell's call by name. 
+
+(Since, most of the Scala and Cats etc is copied from Haskell) 
 Haskell uses call-by-name evaluation, or lazy-evaluation to evaluate expressions
 
-https://wiki.haskell.org/Thunk 
+<a href="https://wiki.haskell.org/Thunk" target="_blank">Haskell Wiki: Thunk</a>
+
 
 
 
