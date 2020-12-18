@@ -12,7 +12,8 @@
 
         - functional programming (effectful) 
             Cats 2.x (Effect - IO,ConcurrentEffect,ContextShift,Blocker,Timer etc.)
-        - FP libraries for boilerplate free common utilities: pureConfig,Circe,http4s
+        - FP libraries for boilerplate free common utilities: 
+            pureConfig,Circe,http4s
         - CI/CD: to explore dev approaches (BDD/TDD)
             BDD / TDD ScalaTest (or Cucumber maybe)
             Property based Testing (ScalaCheck)
