@@ -47,27 +47,6 @@ Haskell uses call-by-name evaluation, or lazy-evaluation to evaluate expressions
 
 https://wiki.haskell.org/Thunk 
 
-### Purpose of this project
-
-    - It is a learning project, 
-        - to explore dev approaches (BDD/TDD)
-        - functional programming (effectful)
-        - Using Blocker to manage blocking calls (DB/Third party APIs, etc)
-        - Streaming
-        
-#### Following tech stack explored:	
-##### Dev 
-	        - Scala 2.12.0
-	        - Cats 2.x (Effect - IO,ConcurrentEffect,ContextShift,Blocker,Timer etc.)
-	        - fs2 (Streaming)
-	        - pureConfig,Circe,http4s
-	        
-##### CI/CD
-
-    - BDD: ScalaTest (or Cucumber maybe)
-    - Property Based Testing (Scalacheck)
-    - Maybe: SonarQube Scoverage
-
 
 
 	
