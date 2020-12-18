@@ -1,14 +1,13 @@
 # SPARKRUN
 
-### SparkRun is an ongoing project
+### SparkRun is an ongoing both: for learning (FP/Effects) and utility project (Spark Job Execution)
   
 	- a Spark Job Execution Service
 	- launched via command line 
 	- has two components (Runner for submitting jobs and Tracker for tracking jobs)
 
-### Purpose of this project
-
-#### It is a learning project,
+#### Concepts explored
+See [Learnings from SparkRun](SPARKRUN_LEARN.md)
 
         - functional programming (effectful) 
             Cats 2.x (Effect - IO,ConcurrentEffect,ContextShift,Blocker,Timer etc.)
