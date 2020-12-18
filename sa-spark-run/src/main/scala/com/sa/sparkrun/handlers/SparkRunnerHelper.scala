@@ -17,7 +17,7 @@ object SparkRunnerHelper{
                        , externalConfigPath: java.nio.file.Path, blocker: Blocker)
           = sparkType match {
     case "yarn" =>
-      val c = for{
+      for{
         yarnConf <- loadCnfF[F,YarnConf](externalConfigPath, YarnConf.namespace, blocker)
         daemonConf <- loadCnfF[F,DaemonConf](externalConfigPath, DaemonConf.namespace, blocker)
         yarnParam = YarnParam(yarnConf, daemonConf)
@@ -25,7 +25,6 @@ object SparkRunnerHelper{
         myYarnParam = MyYarnRunParam(yarnClient,yarnParam)
         runner = new YarnRunner[F](myYarnParam)
       } yield runner
-      c
     case _ =>
       for {
         standaloneConf <- loadCnfF[F,StandaloneConf](externalConfigPath, StandaloneConf.namespace, blocker)

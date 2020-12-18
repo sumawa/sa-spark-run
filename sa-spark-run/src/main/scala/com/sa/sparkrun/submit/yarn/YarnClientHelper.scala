@@ -61,12 +61,7 @@ object YarnClientHelper {
     } yield client
 
   // Use Race/Timer related waiting to handle RM connection issue.
-  def build[F[_]](clientConfig: Map[String, String], blocker: Blocker)(
-    implicit
-    F: ConcurrentEffect[F],
-    timer: Timer[F],
-    cs: ContextShift[F]
-  ): F[YarnClient] =
+  def build[F[_]: ConcurrentEffect: ContextShift: Timer](clientConfig: Map[String, String], blocker: Blocker): F[YarnClient] =
 //    doMakeYC[F](clientConfig)
     makeAndConnect[F](blocker,clientConfig)
 
