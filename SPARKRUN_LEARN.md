@@ -1,4 +1,4 @@
-# SPARKRUN LEARNING
+# SPARKRUN LEARNINGS
 
 ### FP and effects: Major theme in FP is separating the
 * Description of the program: pure description of the program "I give you the names, you give me back IDs"
