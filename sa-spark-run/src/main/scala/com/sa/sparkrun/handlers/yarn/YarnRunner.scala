@@ -5,7 +5,7 @@ import cats.effect.{Blocker, ConcurrentEffect, ContextShift, Timer}
 import com.sa.sparkrun.conf.ConfHelper.loadCnfF
 import com.sa.sparkrun.conf.{DaemonConf, YarnConf}
 import com.sa.sparkrun.db.domain.job.Job
-import com.sa.sparkrun.handlers.{MySparkRunner, MyYarnRunParam, SpSuccess}
+import com.sa.sparkrun.handlers.{SparkRunner, MyYarnRunParam, SpSuccess}
 import com.sa.sparkrun.params.YarnParam
 import com.sa.sparkrun.submit._
 import com.sa.sparkrun.submit.yarn.YarnClientHelper
@@ -14,7 +14,7 @@ import org.apache.hadoop.yarn.api.records._
 import org.apache.hadoop.yarn.client.api.{YarnClient, YarnClientApplication}
 import org.apache.hadoop.yarn.util.Records
 
-class YarnRunner[F[_]](myYarnRunParam: MyYarnRunParam) extends MySparkRunner [F]{
+class YarnRunner[F[_]](myYarnRunParam: MyYarnRunParam) extends SparkRunner [F]{
 
   import cats.effect.ConcurrentEffect
   import cats.implicits._

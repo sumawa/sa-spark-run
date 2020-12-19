@@ -15,4 +15,10 @@ object SparkRunImplicits {
     (implicit F: ConcurrentEffect[F]): F[Unit] =
     ioa.attempt.flatMap(et => et.fold(ex => F.unit, _ => F.unit))
 
+  import cats.data.EitherT
+
+  def triggerEither[F[_],A](ioa: EitherT[F,String,A])
+                   (implicit F: ConcurrentEffect[F]): F[Unit] =
+    ioa.fold(ex => F.unit, _ => F.unit)
+
 }

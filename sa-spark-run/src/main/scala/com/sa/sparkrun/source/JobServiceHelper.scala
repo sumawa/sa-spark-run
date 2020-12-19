@@ -20,6 +20,7 @@ object JobServiceHelper{
       for {
         databaseConf <- loadCnfF[F,DatabaseConfig](externalConfigPath, DatabaseConfig.namespace, blocker)
         _ <- Stream.eval(F.delay(println(s"got databaseConf: ${databaseConf}")))
+        _ <- Stream.eval(F.delay(println(s"OBTAINING XA: ")))
         xa <- Stream.eval(PooledTransactor[F](databaseConf))
         _ <- Stream.eval(F.delay(println(s"GOT ### XA: ${xa}")))
         jobR           = new DoobieJobRepository[F](xa)

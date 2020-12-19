@@ -36,6 +36,7 @@ object SparkRunMain extends IOApp {
 
   import pureconfig.generic.auto._
 
+  import com.sa.sparkrun.SparkRunImplicits._
   private def init(blocker: Blocker) = for {
     logger <- Stream.eval(Slf4jLogger.create[IO])
 
@@ -52,20 +53,14 @@ object SparkRunMain extends IOApp {
 
     launcher = new SparkLauncher[IO](sparkRunner, logger, blocker)
 
-    sparkRunIO = SparkRunImplicits.trigger(IO(launcher.run(jobS)))
-//    stream <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((sparkRunIO,IO.unit).tupled.void)
-
-    stream <- Stream.eval(sparkRunIO)
+    res = launcher.run(jobS)
+    stream <- Stream.eval(triggerEither(res))
+    //    stream <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((sparkRunIO,IO.unit).tupled.void)
 //      println(s"----- DOING TEST SUBMIT ----- ")
-
-
-//    sparkRunIO = logE(IO{launcher.run(jobR).unsafeRunSync()})(logger)
-//    stream         <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((sparkRunIO,IO.unit).tupled.void)
   } yield (stream)
 
   override def run(args: List[String]): IO[ExitCode] =
     Blocker[IO].use(init(_).compile.drain)
       .handleError(e => println(s"BOOTSTRAP SPARK RUN ERROR OCCURRED: \n\t ${e}"))
       .as(ExitCode.Error)
-
 }

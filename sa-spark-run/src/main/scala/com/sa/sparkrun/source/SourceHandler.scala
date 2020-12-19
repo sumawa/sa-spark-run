@@ -25,7 +25,7 @@ import com.sa.sparkrun.submit.AppStatus
 //final case object Yarn extends SparkClient
 //
 //
-//trait MySparkRunner[F[_]]{
+//trait SparkRunner[F[_]]{
 //  def submit(job: Job)(implicit F: ConcurrentEffect[F]): EitherT[F,String,SpSuccess]
 //}
 

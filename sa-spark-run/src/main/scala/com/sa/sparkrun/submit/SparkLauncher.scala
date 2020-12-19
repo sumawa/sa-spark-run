@@ -5,12 +5,12 @@ import cats.data.EitherT
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, Effect}
 import com.sa.sparkrun.db.domain.job.Job
 import com.sa.sparkrun.db.models.ExecutionJobStatus
-import com.sa.sparkrun.handlers.{MySparkRunner, SpSuccess, SparkRunParam}
+import com.sa.sparkrun.handlers.{SparkRunner, SpSuccess, SparkRunParam}
 import com.sa.sparkrun.params.SparkCommand
 import com.sa.sparkrun.service.{JobService, JobServiceImpl}
 import io.chrisdavenport.log4cats.StructuredLogger
 
-class SparkLauncher[F[_]]( sparkRunner: MySparkRunner[F]
+class SparkLauncher[F[_]]( sparkRunner: SparkRunner[F]
                       , logger: StructuredLogger[F]
                       , blocker: Blocker
                     )(
@@ -24,8 +24,8 @@ class SparkLauncher[F[_]]( sparkRunner: MySparkRunner[F]
 
   import io.circe.generic.auto._
   import io.circe.syntax._
-  val testSc = SparkCommand("org.apache.spark.examples.SparkPi","/opt/spark-2.4.0-bin-hadoop2.7/examples/jars/spark-examples_2.11-2.4.0.jar",List("80"))
-//    val testSc = SparkCommand("org.apache.spark.examples.SparkPi","hdfs:///sparkrun/books/spark-examples_2.11-2.4.0.jar",List("80"))
+//  val testSc = SparkCommand("org.apache.spark.examples.SparkPi","/opt/spark-2.4.0-bin-hadoop2.7/examples/jars/spark-examples_2.11-2.4.0.jar",List("80"))
+    val testSc = SparkCommand("org.apache.spark.examples.SparkPi","hdfs:///sparkrun/books/spark-examples_2.11-2.4.0.jar",List("80"))
 
   // TODO: VERIFY HOW THE BLOCKER WE USED FOR INITIALIZING DOOBIE/HIKARI TRANSACTOR POOL IS USED
   //  WE HAVE ALREADY PROVIDED A THREAD POOL FOR TRANSACT BLOCKER

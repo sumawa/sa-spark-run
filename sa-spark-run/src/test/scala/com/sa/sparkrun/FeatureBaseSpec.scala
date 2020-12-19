@@ -10,6 +10,7 @@ import com.sa.sparkrun.db.{DoobieJobRepository, PooledTransactor}
 import com.sa.sparkrun.handlers.SparkRunnerHelper
 import com.sa.sparkrun.params.SparkCommand
 import com.sa.sparkrun.service.JobServiceImpl
+import com.sa.sparkrun.source.JobServiceHelper
 import fs2.Stream
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
@@ -69,22 +70,15 @@ trait FeatureBaseSpec extends FeatureSpec with Matchers with BeforeAndAfter with
 
   def yarnSparkRunner = (Blocker[IO].use(b => getSparkRunner(b).compile.toList)).unsafeRunSync()(0)
 
-  def getDbResourcesTuple(blocker: Blocker) = (for {
+  def getJobS(blocker: Blocker) = (for {
     logger <- Stream.eval(Slf4jLogger.create[IO])
     envConfig <- loadCnfDefault[IO, EnvConfig](EnvConfig.namespace,blocker)
     externalConfigPath = Paths.get(envConfig.getExternalConfigPath)
     _ <- Stream.eval(IO(println(s"externalConfigPath = ${externalConfigPath}")))
-    databaseConf <- loadCnfF[IO,DatabaseConfig](externalConfigPath, DatabaseConfig.namespace,blocker)
-    _ <- Stream.eval(IO(println(s"got databaseConf: ${databaseConf}")))
-    xa <- Stream.eval(PooledTransactor[IO](databaseConf))
-    _ <- Stream.eval(IO(println(s"GOT ### XA: ${xa}")))
-    jobR           = new DoobieJobRepository[IO](xa)
-    _ <- Stream.eval(IO(println(s"GOT ### DoobieJobRepository: ${jobR}")))
-    jobS = new JobServiceImpl[IO](jobR)
-  } yield (xa,jobS))
+    jobS <- JobServiceHelper.loadSource[IO]("sql",externalConfigPath,blocker)
+  } yield (jobS))
 
-  val dbResourcesTuple = (Blocker[IO]).use(b => getDbResourcesTuple(b).compile.toList).unsafeRunSync()(0)
-  val (xa,jobS) = (dbResourcesTuple._1,dbResourcesTuple._2)
+  val jobS = (Blocker[IO]).use(b => getJobS(b).compile.toList).unsafeRunSync()(0)
 
 //  val standaloneSparkRunner = (Blocker[IO].use(b => getSparkRunner(b, "standalone")))
 

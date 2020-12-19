@@ -3,14 +3,14 @@ package com.sa.sparkrun.handlers.standalone
 import cats.data.EitherT
 import cats.effect.{ConcurrentEffect, ContextShift, IO}
 import com.sa.sparkrun.db.domain.job.Job
-import com.sa.sparkrun.handlers.{MySparkRunner, SpSuccess, StandaloneRunParam}
+import com.sa.sparkrun.handlers.{SparkRunner, SpSuccess, StandaloneRunParam}
 import com.sa.sparkrun.params.{SpResponse, SparkCommand}
 import com.sa.sparkrun.submit._
 import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.{Header, Method, Request, Uri}
 
-class StandaloneRunner[F[_]](myStandaloneRunParam: StandaloneRunParam) extends MySparkRunner [F]{
+class StandaloneRunner[F[_]](myStandaloneRunParam: StandaloneRunParam) extends SparkRunner [F]{
   // TODO: use alias
   type EitherSP[A] = EitherT[F,String,A]
 
