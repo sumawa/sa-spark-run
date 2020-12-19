@@ -1,6 +1,8 @@
 # SPARKRUN
 
-### SparkRun is an ongoing both: for learning (FP/Effects) and utility project (Spark Job Execution)
+### SparkRun is an ongoing project with two purposes: 
+##### 1. for learning (FP/Effects) and 
+##### 2. as a utility project (Spark Job Execution)
   
 	- a Spark Job Execution Service
 	- launched via command line 
