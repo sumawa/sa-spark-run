@@ -11,6 +11,7 @@ import com.sa.sparkrun.service.{JobService, JobServiceImpl}
 import io.chrisdavenport.log4cats.StructuredLogger
 
 class SparkLauncher[F[_]]( sparkRunner: SparkRunner[F]
+                         , jobService: JobService[F]
                       , logger: StructuredLogger[F]
                       , blocker: Blocker
                     )(
@@ -30,13 +31,14 @@ class SparkLauncher[F[_]]( sparkRunner: SparkRunner[F]
   // TODO: VERIFY HOW THE BLOCKER WE USED FOR INITIALIZING DOOBIE/HIKARI TRANSACTOR POOL IS USED
   //  WE HAVE ALREADY PROVIDED A THREAD POOL FOR TRANSACT BLOCKER
   //  ONCE CONFIRMED WE NEED NOT USE blocker.blockOn() HERE FOR DB CALLS
-  def run(jobS: JobService[F])(implicit F: ConcurrentEffect[F]): EitherT[F,String,Unit] =
+
+  def run()(implicit F: ConcurrentEffect[F]): EitherT[F,String,Unit] =
     for {
-//      _ <- F.delay(println(s"--- SPARK LAUNCHER RUN ---------"))
-      queuedJobs <- EitherT.right[String](blocker.blockOn(jobS.allQueued))
-      _ <- queuedJobs.map(executeQueuedJob(_, jobS)).parSequence
-//      _ <- F.delay(println(s"INSERT TEST JOB JUST FOR TESTING"))
-      _ <- EitherT.right[String](jobS.insert(Job(0,java.util.UUID.randomUUID().toString,testSc.asJson.toString)))
+      //      _ <- F.delay(println(s"--- SPARK LAUNCHER RUN ---------"))
+      queuedJobs <- EitherT.right[String](blocker.blockOn(jobService.allQueued))
+      _ <- queuedJobs.map(executeQueuedJob(_, jobService)).parSequence
+      //      _ <- F.delay(println(s"INSERT TEST JOB JUST FOR TESTING"))
+      _ <- EitherT.right[String](jobService.insert(Job(0,java.util.UUID.randomUUID().toString,testSc.asJson.toString)))
     } yield ()
 
   def executeQueuedJob(job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]) = for{

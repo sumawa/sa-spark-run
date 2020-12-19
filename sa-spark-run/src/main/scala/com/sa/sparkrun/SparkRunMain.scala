@@ -51,9 +51,9 @@ object SparkRunMain extends IOApp {
 
     jobS <- JobServiceHelper.loadSource[IO]("sql",externalConfigPath,blocker)
 
-    launcher = new SparkLauncher[IO](sparkRunner, logger, blocker)
+    launcher = new SparkLauncher[IO](sparkRunner, jobS, logger, blocker)
 
-    res = launcher.run(jobS)
+    res = launcher.run()
     stream <- Stream.eval(triggerEither(res))
     //    stream <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((sparkRunIO,IO.unit).tupled.void)
 //      println(s"----- DOING TEST SUBMIT ----- ")
