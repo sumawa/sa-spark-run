@@ -43,11 +43,18 @@ pureConfig,Circe,http4s
 6. Supports launching on multiple types of Servers (Standalone,Yarn,Kubernetes,...)
 7. Tracker tracks multiple pending jobs 
 
+### How to run
+1. Pending
+
+### Configuration Guide
+1. Pending (link to separate document.)
+
 ### Upcoming enhancements
 
 1. Kerberos support
-2. Kubernets, Rabbit MQ, Kafka support
+2. Kubernetes, Rabbit MQ, Kafka support
 3. Use containers for integration testing.
+4. Integrate with JIRA
 
 
 
