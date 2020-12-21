@@ -4,24 +4,29 @@
 ##### 1. for learning (FP/Effects) and 
 ##### 2. as a utility project (Spark Job Execution)
   
-	- a Spark Job Execution Service
-	- launched via command line 
-	- has two components (Runner for submitting jobs and Tracker for tracking jobs)
+* Spark Job Execution Service and Tracking Service
+* launched via command line
+* has two components (Runner for submitting jobs and Tracker for tracking jobs)
 
 #### Concepts explored
 See [Learnings from SparkRun](SPARKRUN_LEARN.md)
 
-        - functional programming (effectful) 
-            Cats 2.x (Effect - IO,ConcurrentEffect,ContextShift,Blocker,Timer etc.)
-        - FP libraries for boilerplate free common utilities: 
-            pureConfig,Circe,http4s
-        - CI/CD: to explore dev approaches (BDD/TDD)
+* functional programming (Effectful)
+```
+Cats 2.x (Effect - IO,ConcurrentEffect,ContextShift,Blocker,Timer etc.)
+```
+* FP libraries for boilerplate free common utilities:
+```
+pureConfig,Circe,http4s
+```
+* CI/CD: to explore dev approaches (BDD/TDD)
             BDD / TDD ScalaTest (or Cucumber maybe)
             Property based Testing (ScalaCheck)
             SonarQube
-        - Have more transparency in managing blocking calls via separate thread pools
-        - Using Blocker to manage blocking calls (DB/Third party APIs, etc)
-        - Streaming (fs2)
+
+* Have more transparency in managing blocking calls via separate thread pools
+* Using Blocker to manage blocking calls (DB/Third party APIs, etc)
+* Streaming (fs2): Possibly for throttling multiple job executions
         
 ### SparkRun Spark Execution and Tracking Service
 
@@ -30,10 +35,10 @@ See [Learnings from SparkRun](SPARKRUN_LEARN.md)
 ### SparkRun Design Goals
 
 1. Launch via command line
-2. Configurable via conf files and command line parameters
+2. Configurable Yarn/Standalone/others support
 3. A "Job" is one unit of spark execution, representing a spark job.
 5. There are two services "SparkRunner" and "Tracker"
-4. SparkRunner service listens to a Job Source (SQL DB, FileSystem, Message Queues, others ...)
+4. Configurable poll based service for a Job Source (SQL DB, FileSystem, Message Queues, others ...)
 5. SparkRunner service detects pending jobs and submits in parallel via Spark Runner (or executor service)
 6. Supports launching on multiple types of Servers (Standalone,Yarn,Kubernetes,...)
 7. Tracker tracks multiple pending jobs 

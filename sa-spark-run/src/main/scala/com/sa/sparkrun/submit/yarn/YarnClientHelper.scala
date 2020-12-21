@@ -22,6 +22,16 @@ object YarnClientHelper {
   import cats.syntax.flatMap._
   import cats.syntax.functor._
 
+  /*
+  This requires handling runtime exception
+  Sometimes other than the reason, that RM is down, it could also be protocol
+  related issues
+
+    https://stackoverflow.com/questions/25771286/yarn-application-master-unable-to-connect-to-resource-manager
+
+  IPv6 vs IPv4
+  Hence good strategy would be to set a timeout before initializing client
+ */
   private def doMakeYC[F[_]](clientConfig: Map[String, String])(
     implicit
     F: ConcurrentEffect[F],
@@ -43,16 +53,6 @@ object YarnClientHelper {
         }
       }
       _ <- F.delay({
-        /*
-          This requires handling runtime exception
-          Sometimes other than the reason, that RM is down, it could also be protocol
-          related issues
-
-            https://stackoverflow.com/questions/25771286/yarn-application-master-unable-to-connect-to-resource-manager
-
-          IPv6 vs IPv4
-          Hence good strategy would be to set a timeout before initializing client
-         */
         try(client.createApplication()) catch {
           case ex: Exception =>
             println(s"---- YARN APPLICATION CREATION EXCEPTION !!!!! ${ex.getMessage} ----")
