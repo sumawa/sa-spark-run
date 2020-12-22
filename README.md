@@ -35,19 +35,18 @@ pureConfig,Circe,http4s
 ### SparkRun Design Goals
 
 1. Launch via command line
-2. Configurable Yarn/Standalone/others support
+2. Configurable Multi Cluster Manager Yarn/Standalone/Kubernetes support
 3. A "Job" is one unit of spark execution, representing a spark job.
 5. There are two services "SparkRunner" and "Tracker"
-4. Configurable poll based service for a Job Source (SQL DB, FileSystem, Message Queues, others ...)
+4. Configurable poll based Multi Job Source (SQL DB, FileSystem, Message Queues, others ...)
 5. SparkRunner service detects pending jobs and submits in parallel via Spark Runner (or executor service)
-6. Supports launching on multiple types of Servers (Standalone,Yarn,Kubernetes,...)
 7. Tracker tracks multiple pending jobs 
 
 ### How to run
 1. Pending
 
 ### Configuration Guide
-1. Pending (link to separate document.)
+1. Pending (link to separate document covering YARN / Standalone configuration elements in detail.)
 
 ### Upcoming enhancements
 
