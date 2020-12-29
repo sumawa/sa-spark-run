@@ -38,7 +38,7 @@ object SparkRunMain extends IOApp {
   import pureconfig.generic.auto._
 
   import com.sa.sparkrun.SparkRunImplicits._
-  private def init(blocker: Blocker) = for {
+  private def init(blocker: Blocker): Stream[IO,Unit] = for {
     logger <- Stream.eval(Slf4jLogger.create[IO])
 
     envConfig <- loadCnfDefault[IO, EnvConfig](EnvConfig.namespace,blocker)

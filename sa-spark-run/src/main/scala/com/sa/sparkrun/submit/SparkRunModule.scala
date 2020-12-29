@@ -33,17 +33,17 @@ class SparkRunModule[F[_]: Effect: Parallel: ContextShift](
         .insert(Job(0,java.util.UUID.randomUUID().toString,testSc.asJson.toString)))
     } yield ()
 
-  def executeQueuedJob(job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]) = for{
+  def executeQueuedJob(job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]): EitherT[F,String,Unit] = for{
     spResp <- EitherT.right[String](handleErrorsIfAny(job,jobS))
   } yield ()
 
-  def handleErrorsIfAny(job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]) =
+  def handleErrorsIfAny(job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]): F[Boolean] =
     {
       val sparkResponse = blocker.blockOn(sparkRunner.submit(job))
       sparkResponse.fold( e => handleError(e, job, jobS), (sp) => updateJobStatus(job, sp, jobS))
     }.flatten
 
-  def handleError(str: String, job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]) = {
+  def handleError(str: String, job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]): F[Boolean] = {
     println(s"=== something bad === ${str}")
     updateError(job, str, jobS)
   }
