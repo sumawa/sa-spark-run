@@ -52,8 +52,9 @@ pureConfig,Circe,http4s
 
 1. Kerberos support
 2. Kubernetes, Rabbit MQ, Kafka support
-3. Use containers for integration testing.
+3. Use dockerized containers for integration testing.
 4. Integrate with JIRA
+5. Exhaustive test coverage.
 
 
 
