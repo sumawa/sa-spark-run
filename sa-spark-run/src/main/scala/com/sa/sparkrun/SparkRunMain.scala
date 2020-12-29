@@ -8,32 +8,33 @@ import com.sa.sparkrun.submit.SparkLauncher
 import fs2.Stream
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 import org.apache.hadoop.conf.Configuration
+import cats.effect.{IO, Timer}
+import cats.implicits._
+
+import com.sa.sparkrun.conf.ConfHelper.{loadCnfF,loadCnfDefault}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 
 object SparkRunMain extends IOApp {
 
   // THIS will help with config
   // https://github.com/lightbend/config
 
-  import cats.effect.IO
-
-  import cats.effect.{IO, Timer}
-  import cats.implicits._
-
-  import com.sa.sparkrun.conf.ConfHelper.{loadCnfF,loadCnfDefault}
-
-  import scala.concurrent.ExecutionContext.Implicits.global
-  import scala.concurrent.duration._
 
   implicit val T: Timer[IO] = IO.timer(global)
 
   import java.nio.file.Paths
 
-//  import com.sa.sparkrun.params.SparkParamBuilderInstances._
-
   val hadoopConf = new Configuration
 
-  import com.sa.sparkrun.submit.yarn.YarnClientHelper
-
+  /*
+    Do not remove this import required by pure config auto derivation.
+    As per documentation:
+    Automatic reader derivation is used throughout all the documentation pages.
+    It is activated simply by importing pureconfig.generic.auto._
+    everywhere readers are needed (for example, where ConfigSource#load is used):
+    */
   import pureconfig.generic.auto._
 
   import com.sa.sparkrun.SparkRunImplicits._
