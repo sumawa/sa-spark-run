@@ -11,6 +11,7 @@ object LocalResourceHelper{
   import cats.syntax.functor._
   import cats.syntax.flatMap._
 
+  //FIXME: Load from config
   val hadoopCnf: org.apache.hadoop.conf.Configuration = {
     val conf = new Configuration
     conf.set("fs.default.name","hdfs://127.0.0.1:9000")
