@@ -8,7 +8,7 @@ The code that does not have effect is pure. FP is about writing pure functions.
 
 #### Benefit or writing this way is to achieve separation of concerns between the IO parts and rest of our code.
 
-### Effect is the way (the recipe) to produce the Output (i.e go to the DB and give me an id of type Long).
+### Effect is the way (the recipe) to produce the Output (i.e go to the DB and get me a record back.
 IO value allows separation of two concerns:
 * Description: IO is a simple immutable value, it’s a recipe to get a type A by doing some kind of IO(network/filesystem/…)
 * Execution: in order for IO to do something, you need to execute/run it using io.unsafeRunSync
