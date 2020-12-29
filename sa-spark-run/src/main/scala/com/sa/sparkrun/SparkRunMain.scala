@@ -2,7 +2,7 @@ package com.sa.sparkrun
 
 import cats.effect.{Blocker, ContextShift, ExitCode, IOApp}
 import com.sa.sparkrun.conf._
-import com.sa.sparkrun.handlers.{SparkClientHelper, SparkRunnerHelper}
+import com.sa.sparkrun.handlers.{SparkClientHelper, SparkRunner}
 import com.sa.sparkrun.source.JobServiceHelper
 import com.sa.sparkrun.submit.SparkLauncher
 import fs2.Stream
@@ -10,8 +10,7 @@ import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
 import org.apache.hadoop.conf.Configuration
 import cats.effect.{IO, Timer}
 import cats.implicits._
-
-import com.sa.sparkrun.conf.ConfHelper.{loadCnfF,loadCnfDefault}
+import com.sa.sparkrun.conf.ConfHelper.{loadCnfDefault, loadCnfF}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
@@ -47,7 +46,7 @@ object SparkRunMain extends IOApp {
     sparkType = envConfig.sparkType
     _ <- Stream.eval(IO(println(s"sparkType = ${sparkType}")))
 
-    sparkRunner <- SparkRunnerHelper.loadRunner[IO](sparkType, externalConfigPath, blocker)
+    sparkRunner <- SparkRunner.loadRunner[IO](sparkType, externalConfigPath, blocker)
     _ <- Stream.eval(IO(println(s"sparkRunner = ${sparkRunner}")))
 
     jobS <- JobServiceHelper.loadSource[IO]("sql",externalConfigPath,blocker)

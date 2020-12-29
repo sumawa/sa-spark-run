@@ -3,17 +3,15 @@ package com.sa.sparkrun
 import java.nio.file.Paths
 
 import cats.effect.{Blocker, ContextShift, IO, Timer}
-import com.sa.sparkrun.conf.ConfHelper.{loadCnfDefault, loadCnfF}
-import com.sa.sparkrun.conf.{DatabaseConfig, EnvConfig}
+import com.sa.sparkrun.conf.ConfHelper.{loadCnfDefault}
+import com.sa.sparkrun.conf.{EnvConfig}
 import com.sa.sparkrun.db.domain.job.Job
-import com.sa.sparkrun.db.{DoobieJobRepository, PooledTransactor}
-import com.sa.sparkrun.handlers.SparkRunnerHelper
+import com.sa.sparkrun.handlers.SparkRunner
 import com.sa.sparkrun.params.SparkCommand
-import com.sa.sparkrun.service.JobServiceImpl
 import com.sa.sparkrun.source.JobServiceHelper
 import fs2.Stream
 import io.chrisdavenport.log4cats.slf4j.Slf4jLogger
-import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
+import org.scalatest.{BeforeAndAfter, Matchers}
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.{FeatureSpec, GivenWhenThen}
 
@@ -63,7 +61,7 @@ trait FeatureBaseSpec extends FeatureSpec with Matchers with BeforeAndAfter with
       _ <- Stream.eval(IO(println(s"externalConfigPath: ${externalConfigPath}")))
       sparkType = envConfig.sparkType
       _ <- Stream.eval(IO(println(s"sparkType = ${sparkType}")))
-      sparkRunner <- SparkRunnerHelper.loadRunner[IO](sparkType, externalConfigPath, blocker)
+      sparkRunner <- SparkRunner.loadRunner[IO](sparkType, externalConfigPath, blocker)
       _ <- Stream.eval(IO(println(s"sparkRunner = ${sparkRunner}")))
 //  } yield (sparkRunner)).compile.toList.unsafeRunSync()(0)
     } yield (sparkRunner)
