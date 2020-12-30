@@ -1,10 +1,11 @@
 # SPARKRUN
 
-### SparkRun is an ongoing project with two objectives: 
-##### 1. for learning (FP/Effects) and 
-##### 2. as a utility project (Spark Job Execution)
+### SparkRun an ongoing project with two objectives: 
+##### 1. Exploring Cats, Typelevel eco-system (effect etc.) purely functional runtime systems.
+##### 2. A utility project (Spark Job Execution)
+##### 3. A comparative study with another Haskell based project https://github.com/sumawa/hspark-run
   
-* Spark Job Execution Service and Tracking Service
+* Spark Job Execution and Tracking Service
 * launched via command line
 * has two components (Runner for submitting jobs and Tracker for tracking jobs)
 
