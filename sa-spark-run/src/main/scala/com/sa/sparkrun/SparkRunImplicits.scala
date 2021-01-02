@@ -7,7 +7,7 @@ import cats.implicits._
 
 object SparkRunImplicits {
 
-  def logE[F[_]](ioa: F[_])(logger: StructuredLogger[F])
+  def triggerWithError[F[_]](ioa: F[_])(logger: StructuredLogger[F])
                 (implicit F: ConcurrentEffect[F]): F[Unit] =
     ioa.attempt.flatMap(et => et.fold(ex => logger.error(ex)(ex.getMessage), _ => F.pure(())))
 
@@ -17,7 +17,7 @@ object SparkRunImplicits {
 
   import cats.data.EitherT
 
-  def triggerEither[F[_],A](ioa: EitherT[F,String,A])
+  def trigger[F[_],A](ioa: EitherT[F,String,A])
                    (implicit F: ConcurrentEffect[F]): F[Unit] =
     ioa.fold(ex => F.unit, _ => F.unit)
 

@@ -25,8 +25,8 @@ class SparkLauncher[F[_]]( sparkRunner: SparkRunner[F]
 
   import io.circe.generic.auto._
   import io.circe.syntax._
-//  val testSc = SparkCommand("org.apache.spark.examples.SparkPi","/opt/spark-2.4.0-bin-hadoop2.7/examples/jars/spark-examples_2.11-2.4.0.jar",List("80"))
-    val testSc = SparkCommand("org.apache.spark.examples.SparkPi","hdfs:///sparkrun/books/spark-examples_2.11-2.4.0.jar",List("80"))
+  val testCommandStandalone = SparkCommand("org.apache.spark.examples.SparkPi","/opt/spark-2.4.0-bin-hadoop2.7/examples/jars/spark-examples_2.11-2.4.0.jar",List("80"))
+  val testCommandYarn = SparkCommand("org.apache.spark.examples.SparkPi","hdfs:///sparkrun/books/spark-examples_2.11-2.4.0.jar",List("80"))
 
   // TODO: VERIFY HOW THE BLOCKER WE USED FOR INITIALIZING DOOBIE/HIKARI TRANSACTOR POOL IS USED
   //  WE HAVE ALREADY PROVIDED A THREAD POOL FOR TRANSACT BLOCKER
@@ -37,8 +37,9 @@ class SparkLauncher[F[_]]( sparkRunner: SparkRunner[F]
       //      _ <- F.delay(println(s"--- SPARK LAUNCHER RUN ---------"))
       queuedJobs <- EitherT.right[String](blocker.blockOn(jobService.allQueued))
       _ <- queuedJobs.map(executeQueuedJob(_, jobService)).parSequence
-      //      _ <- F.delay(println(s"INSERT TEST JOB JUST FOR TESTING"))
-      _ <- EitherT.right[String](jobService.insert(Job(0,java.util.UUID.randomUUID().toString,testSc.asJson.toString)))
+      // FIXME: HARDCODED DB ENTRY TO BE KEPT UNTIL WIP, SHOULD BE REMOVED AFTER MATURE RELEASE.
+//      _ <- EitherT.right[String](jobService.insert(Job(0,java.util.UUID.randomUUID().toString,testCommandYarn.asJson.toString)))
+      _ <- EitherT.right[String](jobService.insert(Job(0,java.util.UUID.randomUUID().toString,testCommandStandalone.asJson.toString)))
     } yield ()
 
   def executeQueuedJob(job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]) = for{
@@ -54,7 +55,6 @@ class SparkLauncher[F[_]]( sparkRunner: SparkRunner[F]
   def handleError(str: String, job: Job, jobS: JobService[F])(implicit F: ConcurrentEffect[F]) = {
     println(s"=== something bad === ${str}")
     updateError(job, str, jobS)
-//    F.pure(false)
   }
 
   def updateJobStatus(job: Job, spResp: SpSuccess, jobS: JobService[F]): F[Boolean] =

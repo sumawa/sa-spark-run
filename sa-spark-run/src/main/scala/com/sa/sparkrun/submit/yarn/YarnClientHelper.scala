@@ -32,7 +32,7 @@ object YarnClientHelper {
   IPv6 vs IPv4
   Hence good strategy would be to set a timeout before initializing client
  */
-  private def doMakeYC[F[_]](clientConfig: Map[String, String])(
+  private def prepareYarnClient[F[_]](clientConfig: Map[String, String])(
     implicit
     F: ConcurrentEffect[F],
     timer: Timer[F],
@@ -61,22 +61,24 @@ object YarnClientHelper {
     } yield client
 
   // Use Race/Timer related waiting to handle RM connection issue.
-  def build[F[_]: ConcurrentEffect: ContextShift: Timer](clientConfig: Map[String, String], blocker: Blocker): F[YarnClient] =
-//    doMakeYC[F](clientConfig)
-    makeAndConnect[F](blocker,clientConfig)
+  def build[F[_]: ConcurrentEffect: ContextShift: Timer](clientConfig: Map[String, String]
+                                                         , blocker: Blocker): F[YarnClient] =
+    prepareAndPing[F](blocker,clientConfig)
 
   import scala.concurrent.duration._
-  def makeAndConnect[F[_]](blocker: Blocker, clientConfig: Map[String,String])(
+  // FIXME: hardcoded timeout
+  def prepareAndPing[F[_]](blocker: Blocker, clientConfig: Map[String,String])(
                             implicit
                             F: ConcurrentEffect[F],
                             timer: Timer[F],
                             cs: ContextShift[F]
                           ): F[YarnClient] =
     F.race(timer.sleep(5 seconds)
-      , blocker.blockOn(doMakeYC(clientConfig)))
+      , blocker.blockOn(prepareYarnClient(clientConfig)))
       .flatMap(_.fold(_ => limitExc, cl => F.pure(cl)))
 
-    private def limitExc[F[_]](
+  // FIXME: hardcoded timeout
+  private def limitExc[F[_]](
                                 implicit
                                 F: ConcurrentEffect[F],
                                 timer: Timer[F],

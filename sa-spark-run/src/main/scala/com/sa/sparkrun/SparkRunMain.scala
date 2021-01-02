@@ -54,9 +54,9 @@ object SparkRunMain extends IOApp {
     launcher = new SparkLauncher[IO](sparkRunner, jobS, logger, blocker)
 
     res = launcher.run()
-    stream <- Stream.eval(triggerEither(res))
-    //    stream <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((sparkRunIO,IO.unit).tupled.void)
-//      println(s"----- DOING TEST SUBMIT ----- ")
+//    stream <- Stream.eval(trigger(res))
+    stream <- Stream.awakeEvery[IO](10 seconds) >> Stream.eval((trigger(res),IO.unit).tupled.void)
+
   } yield (stream)
 
   override def run(args: List[String]): IO[ExitCode] =
