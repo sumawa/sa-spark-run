@@ -44,7 +44,21 @@ pureConfig,Circe,http4s
 7. Tracker tracks multiple pending jobs 
 
 ### How to run
-1. Pending
+Project is WIP, this will change.
+1. For deployment: Build assembly and execute sparkrun.sh
+```
+sbt "project sparkrun" clean console
+./sparkrun.sh
+```
+2. For experimental/exploring/debugging reasons, one can run sbt console and start with main class as entry point
+```
+SPARKRUN_ENV=dev SPARKRUN_HOME=$(pwd) SPARKRUN_TYPE=yarn  sbt "project sparkrun" clean console
+      OR 
+SPARKRUN_ENV=dev SPARKRUN_HOME=$(pwd) SPARKRUN_TYPE=standalone  sbt "project sparkrun" clean console
+
+val srm = com.sa.sparkrun.SparkRunMain.run(List(java.util.UUID.randomUUID().toString))
+srm.unsafeRunSync()
+```
 
 ### Configuration Guide
 1. Pending (link to separate document covering YARN / Standalone configuration elements in detail.)
