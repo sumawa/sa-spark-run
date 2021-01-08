@@ -1,3 +1,5 @@
+~/projs/scala/sbt/bin/sbt -Dsonar.host.url=http://localhost \
+  clean coverage test coverageReport sonarScan
 ~/tools/sonar-scanner-4.5.0.2216-macosx/bin/sonar-scanner \
   -Dsonar.projectKey=sa-suite \
   -Dsonar.sources=./sa-spark-run \
