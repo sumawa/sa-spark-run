@@ -29,6 +29,11 @@ pureConfig,Circe,http4s
 * Using Blocker to manage blocking calls (DB/Third party APIs, etc)
 * Streaming (fs2): Possibly for throttling multiple job executions
         
+#### Pending
+* Logging
+* Documentation
+* Enhance test coverage and testing styles.
+	
 ### SparkRun Spark Execution and Tracking Service
 
 ![alt text](sparkrun.png "SparkRun executor and Trakcing Service")
