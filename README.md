@@ -1,6 +1,6 @@
 # SPARKRUN
 
-### SparkRun an ongoing project with two objectives: 
+### SparkRun an ongoing project with following objectives: 
 ##### 1. Exploring Cats, Typelevel eco-system (effect etc.) purely functional runtime systems.
 ##### 2. A utility project (Spark Job Execution)
 ##### 3. A comparative study with another Haskell based project (WIP) https://github.com/sumawa/hspark-run
