@@ -52,7 +52,7 @@ pureConfig,Circe,http4s
 Project is WIP, this will change.
 1. For deployment: Build assembly and execute sparkrun.sh
 ```
-sbt  "project sa-spark-run" clean  assembly
+sbt  "project sparkrun" clean  assembly
 
 sbt "project sparkrun" clean console
 ./sparkrun.sh
